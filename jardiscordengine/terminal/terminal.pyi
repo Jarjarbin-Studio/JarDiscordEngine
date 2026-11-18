@@ -18,14 +18,29 @@ class JDETerminal(
         True,
     ]
 ):
-    """Terminal handler."""
+    """
+    Terminal handler.
+
+    Attributes:
+        on_starting (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot starting.
+        on_start (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot started.
+        on_closing (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot closing.
+        on_close (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot closed.
+    """
+
+    on_starting: Callable[[], Awaitable[None]] | None = None
+    on_started: Callable[[], Awaitable[None]] | None = None
+    on_closing: Callable[[], Awaitable[None]] | None = None
+    on_closed: Callable[[], Awaitable[None]] | None = None
 
     def __init__(
         self,
         bot: JDEBot,
         prompt: str | None = None,
-        on_ready: Callable[[], Awaitable[None]] | None = None,
-        on_close: Callable[[], Awaitable[None]] | None = None
+        on_starting: Callable[[], Awaitable[None]] | None = None,
+        on_started: Callable[[], Awaitable[None]] | None = None,
+        on_closing: Callable[[], Awaitable[None]] | None = None,
+        on_closed: Callable[[], Awaitable[None]] | None = None
     ) -> None:
         """
         Create a terminal.
@@ -33,8 +48,10 @@ class JDETerminal(
         Args:
             bot (JDEBot): Bot.
             prompt (str | None): Terminal command prompt.
-            on_ready (Callable[[], Coroutine[Any, Any, None]] | None): Function that will be called when terminal AND bot ready.
-            on_close (Callable[[], Coroutine[Any, Any, None]] | None): Function that will be called when exiting terminal AND bot.
+            on_starting (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot starting.
+            on_started (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot started.
+            on_closing (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot closing.
+            on_closed (Callable[[], Awaitable[None]] | None): Function that will be called when terminal AND bot closed.
         """
 
     @property

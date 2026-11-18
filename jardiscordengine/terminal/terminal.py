@@ -77,15 +77,17 @@ class JDETerminal(_JDEInternBaseClass):
             _jde_warn=_jde_warn if _jde_warn is not None else True,
         )
 
-    def __init__(self, bot, prompt = None, on_ready = None, on_close = None):
+    def __init__(self, bot, prompt = None, on_starting = None, on_started = None, on_closing = None, on_closed = None):
         if prompt is None:
             prompt = f"[JDE: {_get("project", "PROJECT", "name", str, "Unnamed project")}] > "
 
         self._bot = bot
         self._prompt = prompt
         self._running = False
-        self._on_ready = on_ready
-        self._on_close = on_close
+        self.on_starting = on_starting
+        self.on_started = on_started
+        self.on_closing = on_closing
+        self.on_closed = on_closed
         self._restart_requested = False
         self._save_interval = _get("settings", "LOG", "save_per", int, 60)
 
@@ -119,30 +121,38 @@ class JDETerminal(_JDEInternBaseClass):
     @_requires_init
     @_timed
     async def run(self):
-        if self._running:
-            raise RuntimeError("The runtime is already running.")
 
-        self._running = True
-
-        bot_task = _asyncio.create_task(
-            self._bot._start(),
-            name="jde-discord-bot",
-        )
-
-        ready_task = _asyncio.create_task(
-            self._wait_until_ready(),
-            name="jde-discord-ready",
-        )
-
-        save_task = _asyncio.create_task(
-            self._periodic_log_save(),
-            name="jde-periodic-log-save",
-        )
-
-        terminal_task = None
         startup_error = None
 
         try:
+            if self._running:
+                raise RuntimeError("The runtime is already running.")
+
+            self._running = True
+
+            if self.on_starting is not None:
+                try:
+                    await self.on_starting()
+                except Exception as error:  # noqa: BLE001
+                    startup_error = error
+
+            bot_task = _asyncio.create_task(
+                self._bot._start(),
+                name="jde-discord-bot",
+            )
+
+            ready_task = _asyncio.create_task(
+                self._wait_until_ready(),
+                name="jde-discord-ready",
+            )
+
+            save_task = _asyncio.create_task(
+                self._periodic_log_save(),
+                name="jde-periodic-log-save",
+            )
+
+            terminal_task = None
+
             try:
                 await self._wait_for_bot(
                     bot_task,
@@ -151,13 +161,13 @@ class JDETerminal(_JDEInternBaseClass):
             except Exception as error:  # noqa: BLE001
                 startup_error = error
 
-            if startup_error is None and self._on_ready is not None:
-                try:
-                    await self._on_ready()
-                except Exception as error:  # noqa: BLE001
-                    startup_error = error
+            if not startup_error:
+                if self.on_started is not None:
+                    try:
+                        await self.on_started()
+                    except Exception as error:  # noqa: BLE001
+                        startup_error = error
 
-            if startup_error is None:
                 terminal_task = _asyncio.create_task(
                     self._terminal_loop(),
                     name="jde-terminal-loop",
@@ -179,6 +189,12 @@ class JDETerminal(_JDEInternBaseClass):
             await self._cancel_task(ready_task)
 
             await self._stop_bot(bot_task)
+
+            if self.on_closed is not None:
+                try:
+                    await self.on_closed()
+                except Exception as error:  # noqa: BLE001
+                    startup_error = error
 
             if startup_error is not None:
                 _JTKExternConsole.print(
@@ -269,8 +285,8 @@ class JDETerminal(_JDEInternBaseClass):
                 _JTKExternConsole.print(self._color(f"Command failed: {error}", 255, 100, 100))
                 _log("ERROR", "Terminal", f"Command failed: {command_name} - {error}",)
 
-        if self._on_close is not None:
-            await self._on_close()
+        if self.on_closing is not None:
+            await self.on_closing()
 
     @_terminal_command(
         "exit",
