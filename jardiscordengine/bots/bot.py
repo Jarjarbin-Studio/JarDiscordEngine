@@ -360,14 +360,16 @@ class JDEBot(_JDEInternFieldDiscord):
                 "Cannot manage guilds before entity synchronization completes."
             )
 
-        guild = self._guilds.get(guild.id)
+        guild_id = guild.id
 
-        if guild is None:
+        registered_guild = self._guilds.get(guild_id)
+
+        if registered_guild is None:
             raise LookupError(
-                f"Guild {guild.id} is not registered with this bot."  # pyright: ignore[reportAttributeAccessIssue]
+                f"Guild {guild_id} is not registered with this bot."
             )
 
-        return _JDEGuildManager(self, guild)
+        return _JDEGuildManager(self, registered_guild)
 
     async def change_presence(self, *, status = None, activity = None):
         self._jde_initializing = True
