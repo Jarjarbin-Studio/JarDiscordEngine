@@ -116,6 +116,7 @@ Start with the following event categories.
 - `CATEGORY_UPDATED`
 - `CATEGORY_DELETED`
 - `CHANNEL_OVERWRITES_UPDATED`
+- `VOICE_STATE_UPDATED`
 
 ### Roles
 
@@ -125,13 +126,18 @@ Start with the following event categories.
 - `ROLE_ASSIGNED`
 - `ROLE_REMOVED`
 
-### Other events to consider later
+### Threads
 
 - `THREAD_CREATED`
 - `THREAD_DELETED`
-- `VOICE_STATE_UPDATED`
+
+### Invites
+
 - `INVITE_CREATED`
 - `INVITE_DELETED`
+
+### Miscellaneous
+
 - `BUTTON_CLICKED`
 - `SELECT_MENU_USED`
 
