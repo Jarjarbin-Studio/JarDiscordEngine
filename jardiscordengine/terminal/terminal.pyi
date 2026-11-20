@@ -1,4 +1,4 @@
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Sequence
 from typing import final
 
 from jardiscordengine.bots.bot import JDEBot
@@ -102,3 +102,7 @@ class JDETerminal(
         self
     ) -> None:
         """Run the terminal interface."""
+
+__all__: Sequence[str] = [
+    "JDETerminal"
+]

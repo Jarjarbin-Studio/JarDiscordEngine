@@ -1,6 +1,8 @@
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, final
 
+
+@final
 class JDEEnvMeta(
     type
 ):
@@ -22,6 +24,7 @@ class JDEEnvMeta(
             str: Value.
         """
 
+@final
 class JDEEnv(
     metaclass=JDEEnvMeta
 ):

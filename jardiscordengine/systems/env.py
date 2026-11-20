@@ -35,13 +35,17 @@ from __future__ import annotations
 
 import os as _os
 from pathlib import Path as _Path
+from typing import final as _final
 
 from dotenv import load_dotenv as _load_dotenv
 
+from jardiscordengine.interns.decorators import documented as _documented
 from jardiscordengine.interns.extern import JTKExternError as _JTKExternError
 
 _MISSING = object()
 
+@_final
+@_documented
 class JDEEnvMeta(type):
 
     @classmethod
@@ -53,6 +57,8 @@ class JDEEnvMeta(type):
                 return default
             raise _JTKExternError.JErrorValue() from err
 
+@_final
+@_documented
 class JDEEnv(metaclass=JDEEnvMeta):
 
     @staticmethod

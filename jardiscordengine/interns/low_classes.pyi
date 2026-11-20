@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from jardiscordengine.interns.base_classe import (
     JDEInternBaseClass,
 )
@@ -19,3 +21,8 @@ class JDEInternField(
 
     def __init__(self):
         """Initialize a field."""
+
+__all__: Sequence[str] = [
+    "JDEInternEntity",
+    "JDEInternField",
+]

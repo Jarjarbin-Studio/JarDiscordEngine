@@ -64,3 +64,8 @@ class JDEInternField(_JDEInternBaseClass):
 
     def __init__(self):
         _JDEInternBaseClass.__init__(self)
+
+__all__ = [
+    "JDEInternEntity",
+    "JDEInternField",
+]

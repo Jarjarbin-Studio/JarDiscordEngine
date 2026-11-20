@@ -1,3 +1,5 @@
+from collections.abc import Sequence
+
 from jardiscordengine.interns.base_classe import JDEInternBaseClass
 from jardiscordengine.interns.low_classes import (
     JDEInternField,
@@ -122,3 +124,11 @@ class JDEInternFieldDiscord[DiscordT](
         Args:
             discord (DiscordT): Discord object.
         """
+
+__all__: Sequence[str] = [
+    "JDEInternFieldID",
+    "JDEInternFieldUsername",
+    "JDEInternFieldName",
+    "JDEInternFieldURL",
+    "JDEInternFieldDiscord",
+]

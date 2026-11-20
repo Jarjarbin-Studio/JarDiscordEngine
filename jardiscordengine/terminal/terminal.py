@@ -51,15 +51,12 @@ from jardiscordengine.interns.enums import (
     JDEInternInstancePolicy as _JDEInternInstancePolicy,
 )
 from jardiscordengine.interns.extern import JTKExternConsole as _JTKExternConsole
-from jardiscordengine.interns.extern import JTKExternError as _JTKExternError
 from jardiscordengine.interns.extern import JTKExternTime as _JTKExternTime
+from jardiscordengine.interns.final_classes import JDETerminalRestart as _JDETerminalRestart
 from jardiscordengine.interns.logs import log as _log
 from jardiscordengine.interns.logs import save as _save
 from jardiscordengine.terminal.decorator import terminal_command as _terminal_command
 
-
-class JDETerminalRestart(_JTKExternError.JErrorSystem):
-    pass
 
 @_final
 @_logged
@@ -204,7 +201,7 @@ class JDETerminal(_JDEInternBaseClass):
                 )
 
             if self._restart_requested:
-                raise JDETerminalRestart("Restarting")
+                raise _JDETerminalRestart("Restarting")
 
     async def _periodic_log_save(self):
         while self._running:
@@ -517,3 +514,7 @@ class JDETerminal(_JDEInternBaseClass):
             ).f_color_green()
         )
         _JTKExternConsole.print("")
+
+__all__ = [
+    "JDETerminal"
+]

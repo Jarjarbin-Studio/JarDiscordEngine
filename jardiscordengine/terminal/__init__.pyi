@@ -11,11 +11,9 @@ from .decorator import (
 )
 from .terminal import (
     JDETerminal,
-    JDETerminalRestart,
 )
 
 __all__: Sequence[str] = [
     "JDETerminal",
-    "JDETerminalRestart",
     "terminal_command",
 ]

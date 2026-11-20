@@ -1,4 +1,4 @@
-from collections.abc import Awaitable, Callable
+from collections.abc import Awaitable, Callable, Sequence
 
 type JDECommand = Callable[[list[str]], Awaitable[None]]
 type JDECommandDecorator = Callable[[JDECommand], JDECommand]
@@ -19,3 +19,7 @@ def terminal_command(
     Returns:
         JDECommandDecorator: JDETerminal command.
     """
+
+__all__: Sequence[str] = [
+    "terminal_command",
+]

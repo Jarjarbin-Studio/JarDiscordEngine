@@ -52,3 +52,7 @@ def terminal_command(name, description, *arguments):
         return handler
 
     return decorator
+
+__all__ = [
+    "terminal_command",
+]

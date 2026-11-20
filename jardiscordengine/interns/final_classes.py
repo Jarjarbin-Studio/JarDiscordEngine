@@ -32,3 +32,19 @@
 # =============================================================================
 
 from __future__ import annotations
+
+from typing import final as _final
+
+from jardiscordengine.interns.extern import JTKExternError as _JTKExternError
+from jardiscordengine.interns.decorators import documented as _documented
+
+
+@_final
+@_documented
+class JDETerminalRestart(_JTKExternError.JErrorSystem):
+
+    pass
+
+__all__ = [
+    "JDETerminalRestart"
+]

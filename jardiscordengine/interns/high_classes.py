@@ -35,9 +35,6 @@ from __future__ import annotations
 
 from jardiscordengine.interns.decorators import documented as _documented
 from jardiscordengine.interns.decorators import field as _field
-from jardiscordengine.interns.enums import (
-    JDEInternInstancePolicy as _JDEInternInstancePolicy,
-)
 from jardiscordengine.interns.helpers import assert_is_instance as _assert_is_instance
 from jardiscordengine.interns.low_classes import (
     JDEInternField as _JDEInternField,
@@ -134,3 +131,11 @@ class JDEInternFieldDiscord(_JDEInternField):
             self.discord = discord
         finally:
             self._jde_initializing = False
+
+__all__ = [
+    "JDEInternFieldID",
+    "JDEInternFieldUsername",
+    "JDEInternFieldName",
+    "JDEInternFieldURL",
+    "JDEInternFieldDiscord",
+]
