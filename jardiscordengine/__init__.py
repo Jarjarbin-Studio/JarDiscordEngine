@@ -82,9 +82,10 @@ def init(project_path):
 
     Interns.Configs.init_all()
 
-    Interns.Logs.JDEInternLog("jde-log", _session=_session, _type="base")
+    Interns.Logs.JDEInternLog("jde-log.base", _session=_session, _type="base")
     Interns.Logs.JDEInternLog("jde-log.command", _session=_session, _type="command")
     Interns.Logs.JDEInternLog("jde-log.event", _session=_session, _type="event")
+    Interns.Logs.JDEInternLog("jde-log.crash", _session=_session, _type="crash")
 
     name = Interns.Configs.get("project", "PROJECT", "name", str, "Unnamed project")
     description = Interns.Configs.get(
