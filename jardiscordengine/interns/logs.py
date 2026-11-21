@@ -48,6 +48,9 @@ from jardiscordengine.interns.extern import JTKExternLog as _JTKExternLog
 
 current_logs = {
     "base": None,
+    "command": None,
+    "event": None,
+    "custom": None,
     "crash": None
 }
 _log_levels = ["DEBUG", "INFO", "NOTICE", "WARN", "ERROR", "CRIT"]
@@ -74,7 +77,7 @@ class JDEInternLog(_JTKExternLog.Log, _JDEInternBaseClass):
         )
 
     @_requires_init
-    def __init__(self, name, _session):
+    def __init__(self, name, _session, _type="custom"):
         if not JDEInternLog.project_path or not JDEInternLog.log_path:
             raise _JTKExternError.JErrorRuntime(
                 "JarDiscordEngine.init(path) must be called first"
@@ -94,7 +97,7 @@ class JDEInternLog(_JTKExternLog.Log, _JDEInternBaseClass):
         )
         _JDEInternBaseClass.__init__(self)
 
-        current_logs["base"] = self  # pyright: ignore[reportArgumentType]
+        current_logs[_type] = self  # pyright: ignore[reportArgumentType]
 
 def _clean_text(text):
     if isinstance(text, _JTKExternError.BaseJError):
@@ -105,8 +108,8 @@ def _clean_text(text):
     return text
 
 @_requires_init
-def log(status, title, description, jdeid=None, *values):
-    if current_logs["base"] is None:
+def log(status, title, description, jdeid=None, *values, _type="custom"):
+    if current_logs[_type] is None:
         return
 
     status = status.upper()
@@ -121,37 +124,39 @@ def log(status, title, description, jdeid=None, *values):
     if values:
         description += f" (VALUES:{', '.join(map(repr, values))})"
 
-    current_logs["base"].log(
+    current_logs[_type].log(
         _JTKExternLog.LogLevel(status),
         description,
         scope=title,
     )
 
 @_requires_init
-def comment(comment):
-    if current_logs["base"] is not None:
-        current_logs["base"].comment(_clean_text(comment))
+def comment(comment, _type="custom"):
+    if current_logs[_type] is not None:
+        current_logs[_type].comment(_clean_text(comment))
 
 @_requires_init
 def save():
-    if current_logs["base"] is None:
-        return
+    for _type in current_logs:
+        if current_logs[_type] is None:
+            continue
 
-    current_logs["base"].flush()
+        current_logs[_type].flush()
 
 @_requires_init
 def close():
     from jardiscordengine.interns.helpers import HAS_CRITICAL
 
-    if current_logs["base"] is None:
-        return
+    for _type in current_logs:
+        if current_logs[_type] is None:
+            continue
 
-    current_log = current_logs["base"]
+        current_log = current_logs[_type]
 
-    current_log.flush()
-    current_log.close(result="FAIL" if HAS_CRITICAL else "SUCCESS")
+        current_log.flush()
+        current_log.close(result="FAIL" if HAS_CRITICAL else "SUCCESS")
 
-    current_logs["base"] = None
+        current_logs[_type] = None
 
 __all__ = [
     "JDEInternLog",

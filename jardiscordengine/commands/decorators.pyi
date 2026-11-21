@@ -2,7 +2,7 @@ from collections.abc import Awaitable, Callable, Sequence
 from typing import Concatenate, Literal, TypedDict, Unpack
 
 from jardiscordengine.bots.bot import JDEBot
-from jardiscordengine.entities.commands import JDEEntityApplicationContext
+from jardiscordengine.entities.contexts import JDEEntityApplicationContext
 
 type JDECommand[**P] = Callable[Concatenate[JDEBot, JDEEntityApplicationContext, P], Awaitable[None]]
 type JDECommandDecorator[**P] = Callable[[JDECommand[P]], JDECommand[P]]

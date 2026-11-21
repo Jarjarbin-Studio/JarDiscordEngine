@@ -32,7 +32,7 @@ from .channels import (
     JDEEntityTextChannel,
     JDEEntityVoiceChannel,
 )
-from .commands import (
+from .contexts import (
     JDEEntityApplicationContext,
 )
 from .enums import (

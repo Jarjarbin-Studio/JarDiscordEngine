@@ -112,7 +112,7 @@ def critical(err, show=True):
         )
 
     # Record the critical summary.
-    _log("CRIT", "ENGINE", critical_error.message)
+    _log("CRIT", "ENGINE", critical_error.message, _type="base")
 
     # Record the complete error message.
     _comment(
@@ -176,7 +176,7 @@ def error(err, show = True):
             separator="",
         )
 
-    _log("ERROR", "ENGINE", err.message)
+    _log("ERROR", "ENGINE", err.message, _type="base")
 
 def warning(err, show = True):
     from jardiscordengine.interns.logs import log as _log
@@ -198,7 +198,7 @@ def warning(err, show = True):
             separator="",
         )
 
-    _log("WARN", "ENGINE", err.message)
+    _log("WARN", "ENGINE", err.message, _type="base")
 
 @_requires_init
 def version(config, section, key):

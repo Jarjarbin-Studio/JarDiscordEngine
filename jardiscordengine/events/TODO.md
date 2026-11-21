@@ -31,8 +31,7 @@ events/
 ├── decorators.py
 ├── subscription.py
 ├── events.py
-├── dispatcher.py
-└── tmp.md
+└── dispatcher.py
 ```
 
 ### Module responsibilities

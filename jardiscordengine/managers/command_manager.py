@@ -46,7 +46,7 @@ from jardiscordengine.commands.decorators import (
     _get_command_metadata,
 )
 from jardiscordengine.commands.decorators import command as _command
-from jardiscordengine.entities.commands import (
+from jardiscordengine.entities.contexts import (
     JDEEntityApplicationContext as _JDEEntityApplicationContext,
 )
 from jardiscordengine.interns.base_classe import (
@@ -60,6 +60,7 @@ from jardiscordengine.interns.decorators import requires_init as _requires_init
 from jardiscordengine.interns.enums import (
     JDEInternInstancePolicy as _JDEInternInstancePolicy,
 )
+from jardiscordengine.interns.logs import log as _log
 
 
 @_final
@@ -534,6 +535,8 @@ class JDECommandManager(_JDEInternBaseClass):
         @_wraps(callback)
         async def command_callback(context, *args, **kwargs):
             jde_context = _JDEEntityApplicationContext(context)
+
+            _log("INFO", "COMMAND", f"Executing command {name!r} by user {context.user} in guild {context.guild_id}", _type="command")
 
             return await self._execute_command(
                 callback,

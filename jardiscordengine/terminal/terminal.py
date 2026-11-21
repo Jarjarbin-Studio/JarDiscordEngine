@@ -271,16 +271,16 @@ class JDETerminal(_JDEInternBaseClass):
 
             if handler is None:
                 _JTKExternConsole.print(self._color(f"Unknown command: {command_name}", 255, 100, 100))
-                _log("WARN", "Terminal", f"Unknown command: {command_name}")
+                _log("WARN", "Terminal", f"Unknown command: {command_name}", _type="command")
                 continue
 
             try:
                 await handler(command_arguments)
-                _log("NOTICE", "Terminal", f"Command ran: {command_name}")
+                _log("NOTICE", "Terminal", f"Command ran: {command_name}", _type="command")
 
             except Exception as error:  # noqa: BLE001
                 _JTKExternConsole.print(self._color(f"Command failed: {error}", 255, 100, 100))
-                _log("ERROR", "Terminal", f"Command failed: {command_name} - {error}",)
+                _log("ERROR", "Terminal", f"Command failed: {command_name} - {error}", _type="command")
 
         if self.on_closing is not None:
             await self.on_closing()

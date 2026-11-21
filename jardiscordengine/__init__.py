@@ -82,7 +82,9 @@ def init(project_path):
 
     Interns.Configs.init_all()
 
-    Interns.Logs.JDEInternLog("jde-log", _session=_session)  # pyright: ignore[reportCallIssue]
+    Interns.Logs.JDEInternLog("jde-log", _session=_session, _type="base")
+    Interns.Logs.JDEInternLog("jde-log.command", _session=_session, _type="command")
+    Interns.Logs.JDEInternLog("jde-log.event", _session=_session, _type="event")
 
     name = Interns.Configs.get("project", "PROJECT", "name", str, "Unnamed project")
     description = Interns.Configs.get(
@@ -133,8 +135,9 @@ def init(project_path):
         "INFO",
         "ENGINE",
         f"JarDiscordEngine version {JDEVersion_JarDiscordEngine} initialized",
+        _type="base",
     )
-    Interns.Logs.log("INFO", "ENGINE", f"Current session: {_session}")
+    Interns.Logs.log("INFO", "ENGINE", f"Current session: {_session}", _type="base")
 
     Interns.Logs.save()
 
@@ -175,7 +178,7 @@ def quit():
     Interns.Configs.set("state", "STATISTICS", "longest_session", longest_session)
     Interns.Configs.set("state", "STATISTICS", "shortest_session", shortest_session)
 
-    Interns.Logs.log("INFO", "ENGINE", "Engine quit")
+    Interns.Logs.log("INFO", "ENGINE", "Engine quit", _type="base")
     Interns.Logs.save()
     Interns.Logs.close()
 
@@ -195,16 +198,16 @@ def run(main):
             return
 
         except Terminals.JDETerminalRestart:
-            Interns.Logs.log("INFO", "ENGINE", "Restart requested")
+            Interns.Logs.log("INFO", "ENGINE", "Restart requested", _type="base")
 
         except Exception as error:  # noqa: BLE001
             Interns.Helpers.critical(error)
             return
 
-        Interns.Logs.log("INFO", "ENGINE", "Quitting engine for restart")
-        Interns.Logs.log("INFO", "ENGINE", "Restarting application process")
+        Interns.Logs.log("INFO", "ENGINE", "Quitting engine for restart", _type="base")
+        Interns.Logs.log("INFO", "ENGINE", "Restarting application process", _type="base")
 
-        Interns.Externs.JTKExternConsole.ANSI.Screen.ScreenErase.erase_display()
+        Interns.Externs.JTKExternConsole.print(Interns.Externs.JTKExternConsole.ANSI.Screen.ScreenErase.erase_display())
 
         quit()
 

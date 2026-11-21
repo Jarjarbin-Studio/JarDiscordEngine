@@ -2,7 +2,7 @@ from collections.abc import Awaitable, Callable, Sequence
 from typing import Concatenate, final
 
 from jardiscordengine.bots.bot import JDEBot
-from jardiscordengine.entities.commands import (
+from jardiscordengine.entities.contexts import (
     JDEEntityApplicationContext,
 )
 from jardiscordengine.interns.base_classe import (

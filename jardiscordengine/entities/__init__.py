@@ -61,7 +61,7 @@ from jardiscordengine.entities.channels import (
     JDEEntityTextChannel,
     JDEEntityVoiceChannel,
 )
-from jardiscordengine.entities.commands import (
+from jardiscordengine.entities.contexts import (
     JDEEntityApplicationContext,
 )
 from jardiscordengine.entities.enums import (

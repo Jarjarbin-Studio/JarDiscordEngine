@@ -272,12 +272,10 @@ def _get_jde_log():
 
     return log
 
-
 def _get_jde_error():
     from jardiscordengine.interns.helpers import error
 
     return error
-
 
 def logged(func = None, *, title = "Call", level = "DEBUG", log_args = False):
 
@@ -293,7 +291,7 @@ def logged(func = None, *, title = "Call", level = "DEBUG", log_args = False):
                     f" | args={args!r}, kwargs={kwargs!r}"
                 )
 
-            log(level, title, description)  # pyright: ignore[reportArgumentType]
+            log(level, title, description, _type="base")  # pyright: ignore[reportArgumentType]
 
             try:
                 result = target(*args, **kwargs)
@@ -303,6 +301,7 @@ def logged(func = None, *, title = "Call", level = "DEBUG", log_args = False):
                     title,
                     f"{target.__qualname__} raised "
                     f"{type(exc).__name__}: {exc}",
+                    _type="base"
                 )
                 raise
 
@@ -310,6 +309,7 @@ def logged(func = None, *, title = "Call", level = "DEBUG", log_args = False):
                 level,  # pyright: ignore[reportArgumentType]
                 title,
                 f"{target.__qualname__} completed successfully",
+                _type="base"
             )
 
             return result
@@ -345,6 +345,7 @@ def handle_errors(func = None, *, reraise = True, default = None, keyboard_inter
                     "ERROR",
                     target.__qualname__,
                     f"{type(exc).__name__}: {exc}",
+                    _type="base"
                 )
 
                 error(exc)
@@ -393,7 +394,7 @@ def deprecated(func = None, *, new_func = None, version = None):
                     if version:
                         message += f" since {version}"
 
-                    log("WARN", "DEPRECATED", message)
+                    log("WARN", "DEPRECATED", message, _type="base")
 
                 warned = True
 
@@ -436,6 +437,7 @@ def timed(func=None, *, level="DEBUG", title="Timing"):
                         level,  # pyright: ignore[reportArgumentType]
                         title,
                         f"{target.__qualname__} took {elapsed:.6f} seconds",
+                        _type="base"
                     )
 
             wrapper = async_wrapper
@@ -456,6 +458,7 @@ def timed(func=None, *, level="DEBUG", title="Timing"):
                         level,  # pyright: ignore[reportArgumentType]
                         title,
                         f"{target.__qualname__} took {elapsed:.6f} seconds",
+                        _type="base",
                     )
 
             wrapper = sync_wrapper

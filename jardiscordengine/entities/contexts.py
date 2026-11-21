@@ -69,8 +69,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
         _JDEInternEntity.__init__(self)
         _JDEInternFieldDiscord.__init__(self, context)
 
-    # Core context #
-
     @_flag("discord")
     def bot(self):
         return "bot"
@@ -86,8 +84,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     @_flag("discord")
     def cog(self):
         return "cog"
-
-    # User and location #
 
     @_flag("discord")
     def user(self):
@@ -125,8 +121,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     def voice_client(self):
         return "voice_client"
 
-    # Localization and command options #
-
     @_flag("discord")
     def locale(self):
         return "locale"
@@ -147,8 +141,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     def attachment_size_limit(self):
         return "attachment_size_limit"
 
-    # Interaction response objects #
-
     @_flag("discord")
     def response(self):
         return "response"
@@ -156,8 +148,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     @_flag("discord")
     def followup(self):
         return "followup"
-
-    # Interaction response methods #
 
     @_flag("discord")
     def respond(self):
@@ -187,13 +177,9 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     def delete(self):
         return "delete"
 
-    # Command invocation #
-
     @_flag("discord")
     def invoke(self):
         return "invoke"
-
-    # Installation authorization #
 
     @_flag("discord")
     def is_guild_authorised(self):
@@ -210,8 +196,6 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     @_flag("discord")
     def is_user_authorized(self):
         return "is_user_authorized"
-
-    # Inherited Messageable interface #
 
     @_flag("discord")
     def send(self):
@@ -236,6 +220,29 @@ class JDEEntityApplicationContext(_JDEInternEntity, _JDEInternFieldDiscord):
     @_flag("discord")
     def trigger_typing(self):
         return "trigger_typing"
+
+@_documented
+class JDEEntityEventContext(_JDEInternEntity, _JDEInternFieldDiscord):
+
+    __instance_policy__ = _JDEInternInstancePolicy.NORMAL
+    __instance_limit__ = 0
+    __recursive__ = False
+
+    def __new__(cls, context, _jde_key = None, _jde_warn = None):
+        return _JDEInternEntity.__new__(
+            cls,
+            _jde_key=_jde_key,
+            _jde_warn=_jde_warn if _jde_warn is not None else True,
+        )
+
+    def __init__(self, context):
+        if not isinstance(context, _ApplicationContext):
+            raise TypeError(
+                "CONTEXT must be a discord.ApplicationContext"
+            )
+
+        _JDEInternEntity.__init__(self)
+        _JDEInternFieldDiscord.__init__(self, context)
 
 __all__ = [
     "JDEEntityApplicationContext",

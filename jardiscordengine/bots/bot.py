@@ -312,7 +312,7 @@ class JDEBot(_JDEInternFieldDiscord):
                             self._messages[discord_message.id] = message
 
             self._synchronized = True
-            _log("NOTICE", "BOT SYNC", "Bot synchronized")
+            _log("NOTICE", "BOT SYNC", "Bot synchronized", _type="base")
 
         except Exception as error:
             self._synchronization_error = error
